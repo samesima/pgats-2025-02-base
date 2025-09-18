@@ -1,0 +1,17 @@
+{
+    "valorFinal": 669.75,
+    "userId": 3,
+    "items": [
+        {
+            "productId": 1,
+            "quantity": 1
+        },
+        {
+            "productId": 2,
+            "quantity": 3
+        }
+    ],
+    "freight": 5,
+    "paymentMethod": "credit_card",
+    "total": 669.75
+}
