@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Testes CI
 
 on:
   push:
@@ -21,16 +21,10 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-          
-    - name: Rodar a API Rest
-      run: node rest/server.js &
-          
-    - name: Esperar as APIs estarem Funcionando
-      run: sleep 8
-          
+      
     - name: Criar .env
       run: |
         echo "BASE_URL_REST=${{ secrets.BASE_URL_REST }}" >> .env
           
-    - name: Rodar os testes External de API Rest via HTTP
-      run: npm test
+    - name: Rodar a API Rest e testar
+      run: node rest/server.js & npm test
