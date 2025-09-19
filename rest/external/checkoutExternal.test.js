@@ -14,7 +14,7 @@ describe('Checkout REST API', function () {
         });
 
         beforeEach(async function () {
-            let postLogin = require('../fixture/requisicoes/postLogin.json');
+            let postLogin = require('../fixture/requisicoes/postLoginCheckout.json');
             const respostaLogin = await request(process.env.BASE_URL_REST)
                 .post("/users/login")
                 .send(postLogin);
