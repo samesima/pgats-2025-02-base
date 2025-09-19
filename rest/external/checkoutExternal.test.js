@@ -1,5 +1,10 @@
 const request = require('supertest');
 const { expect } = require('chai');
+const sinon = require('sinon');
+
+const app = require('../app.js');
+const checkoutService = require('../../src/services/checkoutService.js');
+const userService = require('../../src/services/userService.js');
 
 require('dotenv').config();
 
@@ -90,6 +95,64 @@ describe('Checkout REST API', function () {
             
             expect(respostaCheckout.status).to.equal(400);
             expect(respostaCheckout.body).to.deep.equal(respostaEsperadaCheckout);
+        });
+    });
+
+    describe('Checkout Controller', async function () {
+        before(async function () {
+            let postRegister = require('../fixture/requisicoes/postRegisterCheckout.json');
+            await request(app)
+                .post("/api/users/register")
+                .send(postRegister);
+
+            let postLogin = require('../fixture/requisicoes/postLoginCheckout.json');
+            const respostaLogin = await request(app)
+                .post("/api/users/login")
+                .send(postLogin);
+            token = respostaLogin.body.token;
+        });
+
+        afterEach(function () {
+            sinon.restore();
+        });
+
+        it('Deve chamar o serviço de checkout com os parâmetros corretos', async function () {
+            let checkoutServiceMock = sinon.stub(checkoutService, 'checkout');
+            let postCheckout = require('../fixture/requisicoes/postCheckoutBoleto.json');
+
+            await request(app)
+                .post("/api/checkout")
+                .set('Authorization', `Bearer ${token}`)
+                .send(postCheckout);
+
+            expect(checkoutServiceMock.calledOnce).to.be.true;
+            expect(checkoutServiceMock.calledWith(sinon.match.any, postCheckout.items, postCheckout.freight, postCheckout.paymentMethod, undefined)).to.be.true;
+        });
+
+        it('Deve retornar erro com código 401 caso o token seja inválido', async function () {
+            let userServiceMock = sinon.stub(userService, 'verifyToken').returns(null);
+            let postCheckout = require('../fixture/requisicoes/postCheckoutBoleto.json');
+
+            let checkoutResponse = await request(app)
+                .post("/api/checkout")
+                .set('Authorization', `Bearer ${token}`)
+                .send(postCheckout);
+
+            expect(userServiceMock.calledOnce).to.be.true;
+            expect(checkoutResponse.status).to.equal(401);
+        });
+
+        it('Deve retornar erro com código 400 caso o checkout retorne uma exceção', async function () {
+            sinon.stub(checkoutService, 'checkout').throws(new Error('Produto não encontrado'));
+            let postCheckout = require('../fixture/requisicoes/postCheckoutBoleto.json');
+
+            let checkoutResponse = await request(app)
+                .post("/api/checkout")
+                .set('Authorization', `Bearer ${token}`)
+                .send(postCheckout);
+
+            expect(checkoutResponse.status).to.equal(400);
+            expect(checkoutResponse.body).to.deep.equal({ error: 'Produto não encontrado' });
         });
     });
 });
