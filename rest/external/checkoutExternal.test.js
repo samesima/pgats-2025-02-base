@@ -6,6 +6,13 @@ require('dotenv').config();
 describe('Checkout REST API', function () {
     let token;
     describe('Checkout', async function () {
+        before(async function () {
+            let postRegister = require('../fixture/requisicoes/postRegisterCheckout.json');
+            await request(process.env.BASE_URL_REST)
+                .post("/users/register")
+                .send(postRegister);
+        });
+
         beforeEach(async function () {
             let postLogin = require('../fixture/requisicoes/postLogin.json');
             const respostaLogin = await request(process.env.BASE_URL_REST)
