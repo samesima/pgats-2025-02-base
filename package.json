@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha \"rest/external/*.test.js\""
+    "test": "mocha \"rest/external/*.test.js\" \"graphql/external/*.test.js\""
   },
   "repository": {
     "type": "git",
