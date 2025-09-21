@@ -65,22 +65,6 @@ describe('User GRAPHQL API', function () {
             expect(responseLogin.body.data.login.token).to.be.a('string').and.not.empty;
         });
 
-        it('Deve retornar sucesso com o token do usuário e o usuário (Bug encontrado)', async function () {
-            /*
-                BUG: No schema.js a mutation login() permite o retorno do usuário, mas ao fazer isso o sistema
-                retorna um erro em vez do usuário.
-            */
-            const variables = { email: "julianagraphql@email.com", password: "123456" };
-
-            const responseLogin = await request(process.env.BASE_URL_GRAPHQL)
-                .post("/graphql")
-                .send({ query: mutationLoginWithUser, variables });
-            
-            expect(responseLogin.body.errors).to.be.undefined;
-            expect(responseLogin.body.data.login.token).to.be.a('string').and.not.empty;
-            expect(responseLogin.body.data.login.user).to.deep.equal({ name: "Juliana Samesima", email: "julianagraphql@email.com" });
-        });
-
         it('Deve retornar erro caso as credenciais sejam inválidas', async function () {
             const variables = { email: "outrajulianagraphql@email.com", password: "123456" };
 

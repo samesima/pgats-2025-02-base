@@ -24,8 +24,11 @@ jobs:
       
     - name: Criar .env
       run: |
-        echo "PORT=3000" >> .env
         echo "BASE_URL_REST=${{ secrets.BASE_URL_REST }}" >> .env
+        echo "BASE_URL_GRAPHQL=${{ secrets.BASE_URL_GRAPHQL }}" >> .env
           
     - name: Rodar a API Rest e testar
-      run: node rest/server.js & npm test
+      run: node rest/server.js & npm test-rest
+
+    - name: Rodar a API GraphQL e testar
+      run: node graphql/server.js & npm test-graphql
