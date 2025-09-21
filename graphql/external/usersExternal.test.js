@@ -66,7 +66,7 @@ describe('User GRAPHQL API', function () {
         });
 
         it('Deve retornar erro caso as credenciais sejam inválidas', async function () {
-            const variables = { email: "outrajulianagraphql@email.com", password: "123456" };
+            const variables = { email: "julianagraphqlinvalido@email.com", password: "123456" };
 
             const responseLogin = await request(process.env.BASE_URL_GRAPHQL)
                 .post("/graphql")

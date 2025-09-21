@@ -38,7 +38,7 @@ describe('Checkout GRAPHQL API', function () {
                 }
             `;
 
-            const variables = { name: "Juliana Samesima", email: "julianagraphql@email.com", password: "123456" };
+            const variables = { name: "Juliana Samesima", email: "outrajulianagraphql@email.com", password: "123456" };
             
             await request(process.env.BASE_URL_GRAPHQL)
                 .post("/graphql")
