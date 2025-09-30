@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test-rest": "mocha \"rest/external/*.test.js\"",
-    "test-graphql": "mocha \"graphql/external/*.test.js\""
+    "test-rest": "mocha \"test/rest/external/*.test.js\"",
+    "test-graphql": "mocha \"test/graphql/external/*.test.js\""
   },
   "repository": {
     "type": "git",

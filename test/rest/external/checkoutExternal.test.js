@@ -2,9 +2,9 @@ const request = require('supertest');
 const { expect } = require('chai');
 const sinon = require('sinon');
 
-const app = require('../app.js');
-const checkoutService = require('../../src/services/checkoutService.js');
-const userService = require('../../src/services/userService.js');
+const app = require('../../../rest/app.js');
+const checkoutService = require('../../../src/services/checkoutService.js');
+const userService = require('../../../src/services/userService.js');
 
 require('dotenv').config();
 

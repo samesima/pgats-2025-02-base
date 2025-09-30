@@ -2,8 +2,8 @@ const request = require('supertest');
 const { expect } = require('chai');
 const sinon = require('sinon');
 
-const app = require('../app.js');
-const userService = require('../../src/services/userService');
+const app = require('../../../rest/app.js');
+const userService = require('../../../src/services/userService');
 
 require('dotenv').config();
 
